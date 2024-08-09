@@ -44,6 +44,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
@@ -155,4 +158,39 @@ private fun AddEditTaskContent(
             )
         }
     }
+}
+
+data class AddEditTaskContentParameters(
+    val loading: Boolean,
+    val title: String,
+    val description: String
+)
+
+class AddEditTaskContentParameterProvider : PreviewParameterProvider<AddEditTaskContentParameters> {
+    override val values = sequenceOf(
+        AddEditTaskContentParameters(
+            loading = false,
+            title = "Sample Task",
+            description = "This is a sample task description"
+        ),
+        AddEditTaskContentParameters(
+            loading = true,
+            title = "",
+            description = ""
+        )
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AddEditTaskContentPreview(
+    @PreviewParameter(AddEditTaskContentParameterProvider::class) params: AddEditTaskContentParameters
+) {
+    AddEditTaskContent(
+        loading = params.loading,
+        title = params.title,
+        description = params.description,
+        onTitleChanged = {},
+        onDescriptionChanged = {}
+    )
 }
